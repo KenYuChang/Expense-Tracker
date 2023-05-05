@@ -8,7 +8,7 @@ const flash = require("connect-flash");
 require("./config/mongoose");
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 // 處理body-paser
 app.use(express.urlencoded({ extended: true }));
