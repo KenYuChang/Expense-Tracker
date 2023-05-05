@@ -9,14 +9,11 @@ Node.js, Express, handlebars, mongoDB, mongoose, CRUD, passport-local, passport-
 
 ## Features
 
-1. 你可點擊餐廳來查看更多資訊
-2. 可以使用餐廳名稱或是料理類型來搜尋餐廳
-3. 餐廳地址連結到 Google 地圖
-4. 新增餐廳功能
-5. 編輯餐廳功能
-6. 刪除餐廳功能
-7. 新增註冊、登入功能
-8. 本地登入和臉書登入
+1. 新增記帳功能
+2. 編輯記帳功能
+3. 刪除記帳功能
+4. 新增註冊、登入功能
+5. 本地登入和臉書登入
 
 
 ## Prerequisites
@@ -35,7 +32,7 @@ Node.js, Express, handlebars, mongoDB, mongoose, CRUD, passport-local, passport-
 1. Clone the project
 
 ```
-git clone https://github.com/KenYuChang/Restaurant_List.git
+git clone https://github.com/KenYuChang/Expense-Tracker.git
 ```
 
 2. Install the required dependencies
