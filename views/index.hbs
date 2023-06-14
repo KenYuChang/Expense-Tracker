@@ -1,73 +1,171 @@
-{{! 選單 }}
-<div class="mt-5 form-container">
-  <form class="d-flex flex-row" action="/" method="POST">
-    <div class="category-group input-group" style="width:400px;margin:0 auto">
-      <select
-        class="form-select col"
-        id="categoryId"
-        name="categoryId"
-        onchange="this.form.submit()"
-      >
-        <option selected disabled hidden>類別</option>
-        <option value="all">全部</option>
-        {{#each categories}}
-          <option value="{{this._id}}">{{this.name}}</option>
-        {{/each}}
-      </select>
+<div class="row my-1 d-flex justify-content-center p-2">
+  <div class="col-md-6">
+    <div class="d-flex">
+      <form action="/" method="get" class="col-sm-12 rounded d-flex" id="search-by-category">
+
+        <div class="col-md-3 me-1">
+          <select class="form-select" aria-label="Default select example" name="year" id="year">
+            <option value="">選擇年份
+            </option>
+            {{#each data.years}}
+            <option value='{{ this }}' {{#ifCond this ../optionsSelected.year}} selected {{/ifCond}}> {{ this }}
+            </option>
+            {{/each}}
+          </select>
+        </div>
+
+        <div class="col-md-3 me-1">
+          <select class="form-select" aria-label="Default select example" name="month" id="month">
+            <option value="">選擇月份
+            </option>
+            {{#each data.months}}
+            <option value='{{ this }}' {{#ifCond this ../optionsSelected.month}} selected {{/ifCond}}> {{ this }}
+            </option> {{ this }}</option>
+            {{/each}}
+          </select>
+        </div>
+
+        <div class="col-md-3 me-1">
+          <select class="form-select" aria-label="Default select example" name="categoryId" id="category">
+            <option value="">全部類別</option>
+            {{#each data.categories}}
+            <option value='{{ this._id }}' {{#ifCond this._id ../optionsSelected.categoryId }} selected {{/ifCond}}>
+              {{ this.name }}</option>
+            {{/each}}
+          </select>
+        </div>
+        <button class="filter-button btn w-100" type="submit">點擊搜尋</button>
+      </form>
+      <div class="col-sm-6 ps-3">
+        {{> message}}
+      </div>
+
+
     </div>
-  </form>
-</div>
-{{! 總金額 }}
-<div class="container mt-3" style="text-align:center">
-  <h4 style="font-weight:bold">總金額</h4>
-  <h1
-    name="totalAmount"
-    style="font-weight:bold;color:darkgoldenrod"
-  >{{totalAmount}}</h1>
-</div>
+    <div class="row p-2">
+      <div class="col-lg-6 d-flex flex-column justify-content-around bg-light bg-opacity-75 rounded my-1">
+        <div class="text-center">
+          <p class="fs-4 p-2 m-0 text-secondary">總花費：<strong class="fs-1 text-dark">{{totalAmount}}</strong></p>
+        </div>
+      </div>
+      <div class="col-lg-6 my-1">
+        <div class="bg-light rounded">
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="mt-1 p-2 bg-light bg-opacity-75 rounded">
+      <div class="expense-list mb-2 rounded border">
+        <ul class="list-group list-group-flush">
+          {{#each records}}
+          <li
+            class="list-group-item list-group-item-action list-group-item-light d-flex align-items-center justify-content-around p-1">
+            <div class="icon_div col-sm-2">
+              <i class="category_icon {{ this.categoryId.icon }}"></i>
+            </div>
+            <div class="col-sm-3 d-flex flex-column">
+              <h4>
+                {{this.name}}
+              </h4>
+              <small class="date text-muted">{{dateTransfer this.date }}</small>
+            </div>
+            <div class="col-sm-2">
+              <h5>{{ this.amount }}</h5>
+            </div>
+            <a href="./record/{{this._id}}/edit"><button class="btn mx-1 edit-button">修改</button></a>
 
-{{! 支出明細 }}
+            <form action="./record/{{this._id}}?_method=DELETE" method="post" onsubmit="return submitForm(this)"><button
+                type="submit" class="btn delete-button">刪除</button></form>
+          </li>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class="my-2 px-2 bg-light bg-opacity-75 rounded">
+      <a href="./record/new">
+        <button class="btn w-100 my-2" onclick="return isDelete()" id="add-new-button">新增項目</button>
+      </a>
 
-<div class="table-container" style="width:60%;margin:0 auto ">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col" style="width:20%">類別</th>
-        <th scope="col" style="width:30%">項目</th>
-        <th scope="col" style="width:15%">日期</th>
-        <th scope="col" style="width:15%">金額</th>
-        <th scope="col" style="width:20%"></th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each items}}
-        <tr style="vertical-align: middle">
-          <th scope="row"><i
-              class="{{this.categoryId.icon}}"
-            ></i>{{this.categoryId.name}}</th>
-          <td>{{this.name}}</td>
-          <td>{{this.date}}</td>
-          <td>{{this.cost}}</td>
-          <td>
-            <a
-              class="btn btn-success"
-              href="./expense/{{this._id}}/edit"
-              role="button"
-            >修改</a>
-            <form
-              action="/expense/{{this._id}}?_method=DELETE"
-              method="POST"
-              style="display: inline;"
-            >
-              <button class="btn btn-danger" type="submit">刪除</button>
-            </form>
-          </td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
-  <div class="mb-3" style="display:flex;justify-content:center">
-    <a class="btn btn-outline-primary mt-3" href="./expense/new">新增支出</a>
+    </div>
   </div>
 </div>
+
+<script>
+
+  function submitForm(form) {
+    swal({
+      title: "確定要刪除嗎?",
+      text: "",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then(function (isOkay) {
+        if (isOkay) {
+          form.submit();
+        }
+      });
+    return false;
+  }
+
+  const categories = {{{ json data.categories }}}
+  const categorySum = {{{ json sumByCategory }}}
+
+  const labels = []
+  categories.map(category => category.name)
+  const numberData = []
+  categorySum.map(item =>
+    item.sum
+  )
+
+  categories.forEach(name => {
+    categorySum.filter(sum => {
+      if (name._id === sum._id) {
+        labels.push(name.name)
+        numberData.push(sum.sum)
+      } 
+    })
+  })
+  const data = {
+  labels: labels,
+  datasets: [{
+    label: '您的支出分析',
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.8)',
+      'rgba(54, 162, 235, 0.8)',
+      'rgba(255, 206, 86, 0.8)',
+      'rgba(75, 192, 192, 0.8)',
+      'rgba(148, 159, 177, 0.8)'
+    ],
+    borderColor: [
+      'rgba(255, 99, 132, 1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)',
+      'rgba(148, 159, 177, 1)'
+    ],
+    borderWidth: 1,
+    data: numberData,
+  }]
+};
+
+
+  const config = {
+    type: 'pie',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+
+</script>

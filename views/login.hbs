@@ -1,40 +1,42 @@
-<div class="container mt-5" id="login-page">
-  <div class="row justify-content-center">
-    <div class="card card-body" style="max-width: 450px;">
-      <h3 class="text-center">登入</h3>
-      {{>message}}
-      <form action="/users/login" method="POST">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            placeholder="請輸入Email"
-            required
-          />
+<div class="row m-4">
+  <div class="col-md-5 m-auto py-3 bg-light bg-opacity-75 shadow rounded" style="background-color: #777777;">
+    <h2 class="text-center text-dark">Sign in</h2>
+    <hr>
+
+    <div class="col-md-10 m-auto">
+      {{> message}}
+      <form action="/user/login" method="POST" id="login-form">
+
+        <div id="login-input" class="m-auto my-3 p-2 d-flex shadow">
+          <i class="fa-solid fa-user mx-2 pt-1"></i>
+          <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
         </div>
-        <div class="form-group">
-          <label for="password">密碼</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-            placeholder="請輸入密碼"
-            autocomplete="off"
-            required
-          />
+        <div id="login-input" class="m-auto my-3 p-2 d-flex shadow">
+          <i class="fas fa-unlock-alt mx-2 pt-1"></i>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </div>
-        <button
-          class="btn btn-primary btn-block mt-3"
-          type="submit"
-        >登入</button>
-        <a href="/auth/facebook" class="btn btn-info btn-block mt-3">Facebook
-          登入</a>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <button class="btn btn-danger w-100 shadow" onclick="formCheck()">Login</button>
+          </div>
+          <div class="col-lg-6 mb-2">
+            <a href="/auth/facebook" class="btn btn-primary w-100 shadow"><span><i class="fa fa-facebook"></i></span>
+              Facebook 登入</a>
+          </div>
+        </div>
       </form>
-      <p class="lead">尚未註冊？<a href="/users/register">馬上註冊</a></p>
+      <div class="d-flex justify-content-between">
+        <p class="text-start text-dark">No account？<a href="/user/register" class="text-dark">立即加入</a></p>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  const formCheck = () => {
+    const form = document.querySelector('#login-form')
+    form.classList.add('was-validated')
+  }
+</script>
+
