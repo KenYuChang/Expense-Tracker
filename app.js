@@ -1,52 +1,62 @@
-const express = require("express");
-const exphbs = require("express-handlebars");
-const router = require("./routers");
-const methodOverride = require("method-override");
-const session = require("express-session");
-const usePassport = require("./config/passport");
-const flash = require("connect-flash");
-require("./config/mongoose");
+const express = require('express')
+require('express-async-errors')
+const session = require('express-session')
+const Store = require('express-session').Store
+const MongooseStore = require('mongoose-express-session')(Store)
+const usePassport = require('./config/passport')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+const { mongoose } = require('./config/mongoose')
+const exphbs = require('express-handlebars')
+const { helpers } = require('./helpers/hbs-helpers')
+const methodOverride = require('method-override')
+const flash = require('connect-flash')
 
-const app = express();
-const port = process.env.PORT;
+const router = require('./routes')
+const app = express()
+const PORT = process.env.POST || 3000
 
-// 處理body-paser
-app.use(express.urlencoded({ extended: true }));
+app.engine(
+  'hbs',
+  exphbs.engine({
+    defaultLayout: 'main',
+    extname: '.hbs',
+    helpers,
+  })
+)
+app.set('view engine', 'hbs')
 
-// 設定樣板
-app.engine("hbs", exphbs.engine({ extname: ".hbs", defaultLayout: "main" }));
-app.set("view engine", "hbs");
-
-// 設定路由驅動器
-app.use(methodOverride("_method"));
-
-// 設定金鑰
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
+    store: new MongooseStore({
+      connection: mongoose,
+    }),
   })
-);
-
-// 設定驗證流程
-usePassport(app);
-
-// 使用flash作為提示訊息
-app.use(flash());
-
-// 將req變數帶入res中
+)
+usePassport(app)
+app.use(flash())
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.isAuthenticated();
-  res.locals.user = req.user;
-  res.locals.successMsg = req.flash("successMsg");
-  res.locals.warningMsg = req.flash("warningMsg");
-  next();
-});
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
+  res.locals.error_msg = req.flash('error_msg')
+  next()
+})
 
-// 設定各路由入口
-app.use(router);
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
+app.use(methodOverride('_method'))
 
-app.listen(port, () => {
-  console.log("Succeed in running.");
-});
+app.use(router)
+
+app.listen(PORT, () => {
+  console.log(`App is running on http://localhost:${PORT}`)
+})
