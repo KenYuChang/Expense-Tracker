@@ -1,11 +1,11 @@
 # Expense-Tracker
 
 ## Screenshot
-![screenshot](https://github.com/KenYuChang/Expense-Tracker/blob/master/public/image/%E6%88%AA%E5%9C%96%202023-05-05%20%E4%B8%8B%E5%8D%882.10.53.png)
-![screenshot](https://github.com/KenYuChang/Expense-Tracker/blob/master/public/image/%E6%88%AA%E5%9C%96%202023-05-05%20%E4%B8%8B%E5%8D%882.02.37.png)
+![screenshot](https://github.com/KenYuChang/Expense-Tracker/blob/master/public/image/%E6%88%AA%E5%9C%96%202023-06-15%20%E4%B8%8B%E5%8D%8812.44.05.png)
+
 
 ## Introduction
-Node.js, Express, handlebars, mongoDB, mongoose, CRUD, passport-local, passport-facebook, bcryptjs
+- Node.js, Express.js, Handlebars, MongoDB, Mongoose, CRUD, passport-local, passport-facebook, bcryptjs, chart.js, sweetAlert
 
 ## Features
 
@@ -14,18 +14,20 @@ Node.js, Express, handlebars, mongoDB, mongoose, CRUD, passport-local, passport-
 3. 刪除記帳功能
 4. 新增註冊、登入功能
 5. 本地登入和臉書登入
+6. 年/月/種類篩選
+7. 圓餅圖式分析
 
 
 ## Prerequisites
  
-- Runtime: node @ 14.16.0
-- Framework: express @ 4.16.4
-- Template Engine: express-handlebars @ 3.1.0
-- Database: MongoDB & mongoose @ 5.9.7
+- Runtime: node @ 18.15.0
+- Framework: express @ 4.18.2
+- Template Engine: express-handlebars @ 7.0.7
+- Database: MongoDB & mongoose @ 6.5.3
 - Check package.json for other dependencies
 
 ## 測試帳號:
-- 請到種子資料查詢
+- account: use1@example.com, password: 12345678
 
 ## Installation and execution
 
