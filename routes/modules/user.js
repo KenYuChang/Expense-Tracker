@@ -69,7 +69,7 @@ router.post('/register', (req, res) => {
         )
         .then(() => {
           req.flash('success_msg', '您已註冊成功，請重新登入')
-          res.redirect('/users/login')
+          res.redirect('/user/login')
         })
         .catch((err) => res.render('error', { err }))
     })
