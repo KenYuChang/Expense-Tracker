@@ -27,7 +27,7 @@
 - Check package.json for other dependencies
 
 ## 測試帳號:
-- account: use1@example.com, password: 12345678
+- account: user1@example.com, password: 12345678
 
 ## Installation and execution
 
